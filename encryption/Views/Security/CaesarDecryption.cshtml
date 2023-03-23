@@ -1,0 +1,31 @@
+﻿<html>
+    <head>
+
+    </head>
+
+    <body>
+
+    <h2>Caesar Cipher</h2>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label>String</label>
+            <input type="text" class="form-control" id="plainText" name="plainText" />
+        </div>
+
+        <div class="form-group">
+            <label>Key</label>
+            <input type="number" class="form-control" id="Key" name="Key" />
+        </div>
+
+        <button class="btn btn-success" type="submit">Decrypt</button>
+    </form>
+
+    <div class="form-control">
+        <label>Decryption: </label>
+        @ViewBag.Massage
+    </div>
+
+    </body>
+</html>
