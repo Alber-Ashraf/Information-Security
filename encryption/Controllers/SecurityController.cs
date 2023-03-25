@@ -45,11 +45,11 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult CaesarDecryption(string StringName, int Key)
+        public IActionResult CaesarDecryption(string plainText, int Key)
         {
-            if (!String.IsNullOrEmpty(StringName))
+            if (!String.IsNullOrEmpty(plainText))
             {
-                ViewBag.Massage = CaesarDecrypt(StringName, Key);
+                ViewBag.Massage = CaesarDecrypt(plainText, Key);
 
             }
             else

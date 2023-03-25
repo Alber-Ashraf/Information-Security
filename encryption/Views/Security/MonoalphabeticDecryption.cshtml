@@ -10,19 +10,20 @@
         <form method="post">
 
             <div class="form-group">
-                <label>String</label>
-                <input type="text" class="form-control" id="plainText" name="plainText" />
+            <input type="text" class="form-control" id="plainText" name="plainText" placeholder="String: " style="width: 50%"/>
             </div>
+            <br />
 
             <div class="form-group">
-                <label>Key</label>
-                <input type="text" class="form-control" id="key" name="key" />
+                <input type="number" class="form-control" id="Key" name="Key" placeholder="Key: " style="width: 10%" />
             </div>
+            <br />
 
             <button class="btn btn-success" type="submit">Decrypt</button>
+
         </form>
 
-        <div class="form-control">
+    <div class="form-control" style="width: 50%">
             <label>Decryption: </label>
             @ViewBag.Massage
         </div>
