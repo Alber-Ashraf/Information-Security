@@ -17,46 +17,6 @@ namespace encryption.Controllers
             return View();
         }
 
-        // Caesar Action
-        //Encryption Action
-        public IActionResult CaesarEncryption()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CaesarEncryption(string plainText, int key)
-        {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = CaesarEncrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
-
-            return View();
-        }
-
-        //Decryption Action
-        public IActionResult CaesarDecryption()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CaesarDecryption(string plainText, int Key)
-        {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = CaesarDecrypt(plainText, Key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
-
-            return View();
-        }
 
         // Monoalphabetic Action
         //Encryption Action
@@ -161,34 +121,7 @@ namespace encryption.Controllers
             return View();
         }
 
-        //------------------------------------------------------
-        //Caesar Cipher Algorithm
-        public static char Caesarcipher(char ch, int key)
-        {
-            if (!char.IsLetter(ch))
-            {
-
-                return ch;
-            }
-
-            char d = char.IsUpper(ch) ? 'A' : 'a';
-            return (char)((((ch + key) - d) % 26) + d);
-        }
-
-        public static string CaesarEncrypt(string input, int key)
-        {
-            string output = string.Empty;
-
-            foreach (char ch in input)
-                output += Caesarcipher(ch, key);
-
-            return output;
-        }
-
-        public static string CaesarDecrypt(string input, int key)
-        {
-            return CaesarEncrypt(input, 26 - key);
-        }
+        //------------------------------------------------------        
 
         // Monoalphabetic Cipher Algorithm
         static string MonoalphabeticEncrypt(string plainText, string key)

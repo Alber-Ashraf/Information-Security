@@ -1,16 +1,129 @@
 ﻿<html>
 <head>
+    <title>Decryption</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .list {
+            margin: 50px auto;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+            .list ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .list li {
+                border-bottom: 1px solid #ccc;
+                padding: 10px 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+                .list li:last-child {
+                    border-bottom: none;
+                }
+
+                .list li .title {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #333;
+                    margin-right: 20px;
+                }
+
+                .list li .description {
+                    font-size: 16px;
+                    color: #666;
+                    margin-right: auto;
+                }
+
+                .list li .actions {
+                    display: flex;
+                    align-items: center;
+                }
+
+                    .list li .actions a {
+                        display: inline-block;
+                        padding: 5px 10px;
+                        background-color: #007bff;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        margin-right: 10px;
+                        transition: background-color 0.3s ease;
+                    }
+
+                        .list li .actions a:hover {
+                            background-color: #0062cc;
+                        }
+
+                    .list li .actions button {
+                        display: inline-block;
+                        padding: 5px 10px;
+                        background-color: #dc3545;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        margin-right: 10px;
+                        transition: background-color 0.3s ease;
+                        border: none;
+                        cursor: pointer;
+                    }
+
+                        .list li .actions button:hover {
+                            background-color: #c82333;
+                        }
+
+                        .list li .actions button:active {
+                            transform: translateY(1px);
+                        }
+    </style>
 
 </head>
-
 <body>
-
-    <h2>Decryption Algorithms</h2>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="CaesarDecryption">Caesar</a>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="MonoalphabeticDecryption">Monoalphabetic</a>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="PlayfairDecryption">Playfair</a>
-
-
+    <h1>Decryption Algorithms</h1>
+    <div class="list">
+        <ul>
+            <li>
+                <div class="title">Caesar Cipher</div>
+                <div class="description">The encryption process using the Caesar cipher is straightforward.</div>
+                <div class="actions">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="CaesarDecryption">Decrypt</a>
+                </div>
+            </li>
+            <li>
+                <div class="title">Monoalphabetic</div>
+                <div class="description">This is the description for item 2.</div>
+                <div class="actions">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="MonoalphabeticDecryption">Decrypt</a>
+                </div>
+            </li>
+            <li>
+                <div class="title">Playfair</div>
+                <div class="description">This is the description for item 3.</div>
+                <div class="actions">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="PlayfairDecryption">Decrypt</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
-
