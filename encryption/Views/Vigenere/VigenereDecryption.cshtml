@@ -1,0 +1,88 @@
+﻿<html>
+<head>
+
+</head>
+
+<body>
+
+    <h2>Vigenere Cipher</h2>
+    <div class="column">
+        <form method="post">
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " />
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key : " />
+            </div>
+            <br />
+
+            <button class="btn btn-primary" type="submit">Decrypt</button>
+
+        </form>
+        <br />
+
+        <div class="form-control">
+            <label>Decryption: </label>
+            @ViewBag.Massage
+        </div>
+    </div>
+    <div class="column" id="Example">
+        <p>Example: </p>
+        <div class="form-control">
+            <label>Plaintext: </label>
+            The attack will be today
+        </div>
+        <br />
+        <div class="form-control">
+            <label>Key: </label>
+            3
+        </div>
+        <br />
+        <div class="form-control">
+            <label>Decryption: </label>
+            Wkh dwwdfn zloo eh wrgdb
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="cont">
+        <a id="back" class="btn btn-primary" asp-area="" asp-controller="Cryptography" asp-action="Decryption">Back</a>
+    </div>
+
+
+</body>
+
+<style>
+    /* CSS styles for the page */
+    .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .form-control {
+        width: 80%
+    }
+
+    .cont {
+        text-align: center;
+    }
+
+        .cont a {
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+    #Example {
+        opacity: 0.5;
+    }
+</style>
+
+</html>

@@ -89,34 +89,5 @@ namespace encryption.Controllers
             }
             return plaintext;
         }
-
-        /*
-        public static char Caesarcipher(char ch, int key)
-        {
-            if (!char.IsLetter(ch))
-            {
-
-                return ch;
-            }
-
-            char d = char.IsUpper(ch) ? 'A' : 'a';
-            return (char)((((ch + key) - d) % 26) + d);
-        }
-
-        public static string CaesarEncrypt(string input, int key)
-        {
-            string output = string.Empty;
-
-            foreach (char ch in input)
-                output += Caesarcipher(ch, key);
-
-            return output;
-        }
-
-        public static string CaesarDecrypt(string input, int key)
-        {
-            return CaesarEncrypt(input, 26 - key);
-        }
-        */
     }
 }
