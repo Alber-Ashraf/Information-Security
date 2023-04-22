@@ -107,7 +107,6 @@ namespace encryption.Controllers
                     plaintext += (char)(decrypted + 'A');
                 } 
             }
-
             return plaintext;
         }
 

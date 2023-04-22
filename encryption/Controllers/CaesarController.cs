@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
 {
@@ -49,6 +50,9 @@ namespace encryption.Controllers
 
         public static string CaesarEncrypt(string plaintext, int key)
         {
+            // Remove any non-letter characters from the plaintext and convert to uppercase
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ");
+
             string ciphertext = "";
             foreach (char c in plaintext)
             {
@@ -67,6 +71,9 @@ namespace encryption.Controllers
 
         public static string CaesarDecrypt(string ciphertext, int key)
         {
+            // Remove any non-letter characters from the plaintext and convert to uppercase
+            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", " ");
+
             string plaintext = "";
             foreach (char c in ciphertext)
             {
