@@ -65,14 +65,14 @@ namespace encryption.Controllers
             return ciphertext;
         }
 
-        public static string CaesarDecrypt(string ciphertext, int shift)
+        public static string CaesarDecrypt(string ciphertext, int key)
         {
             string plaintext = "";
             foreach (char c in ciphertext)
             {
                 if (char.IsLetter(c))
                 {
-                    char shifted = (char)(((int)char.ToUpper(c) - shift - 65 + 26) % 26 + 65);
+                    char shifted = (char)(((int)char.ToUpper(c) - key - 65 + 26) % 26 + 65);
                     plaintext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
                 }
                 else

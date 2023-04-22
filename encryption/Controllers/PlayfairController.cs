@@ -200,14 +200,26 @@ namespace encryption.Controllers
             return retVal;
         }
 
-        public static string PlayfairEncrypt(string input, string key)
+        public static string PlayfairEncrypt(string plaintext, string key)
         {
-            return Playfair(input, key, true);
+            // Remove any non-letter characters from the plaintext and convert to uppercase
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+
+            // Remove any non-letter characters from the key and convert to uppercase
+            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+
+            return Playfair(plaintext, key, true);
         }
 
-        public static string PlayfairDecrypt(string input, string key)
+        public static string PlayfairDecrypt(string plaintext, string key)
         {
-            return Playfair(input, key, false);
+            // Remove any non-letter characters from the plaintext and convert to uppercase
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+
+            // Remove any non-letter characters from the key and convert to uppercase
+            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+
+            return Playfair(plaintext, key, false);
         }
     }
 }

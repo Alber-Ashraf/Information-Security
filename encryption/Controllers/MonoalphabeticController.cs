@@ -94,7 +94,11 @@ namespace encryption.Controllers
             string plaintext = "";
             foreach (char c in ciphertext)
             {
-                if (char.IsLetter(c))
+                if (c == ' ')
+                {
+                    plaintext += ' ';
+                }
+                else if (char.IsLetter(c))
                 {
                     int index = Array.IndexOf(substitutionAlphabet, char.ToUpper(c));
                     char decrypted = (char)('A' + index);
