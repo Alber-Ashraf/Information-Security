@@ -1,65 +1,11 @@
-﻿using encryption.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
 {
-    public class SecurityController : Controller
+    public class PlayfairController : Controller
     {
-        public IActionResult Encryption()
-        {
-            return View();
-        }
-
-        public IActionResult Decryption()
-        {
-            return View();
-        }
-
-
-        // Monoalphabetic Action
-        //Encryption Action
-        public IActionResult MonoalphabeticEncryption()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult MonoalphabeticEncryption(string plainText, string key)
-        {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = MonoalphabeticEncrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
-
-            return View();
-        }
-
-        //Decryption Action
-        public IActionResult MonoalphabeticDecryption()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult MonoalphabeticDecryption(string plainText, string key)
-        {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = MonoalphabeticDecrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
-
-            return View();
-        }
-
-        // Playfair Action
         //Encryption Action
         public IActionResult PlayfairEncryption()
         {
@@ -100,67 +46,7 @@ namespace encryption.Controllers
             return View();
         }
 
-        // HillCipher Action
-        //Encryption Action
-        public IActionResult HillCipherEncryption()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public IActionResult HillCipherEncryption(string plainText, string key)
-        {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = HillCipher(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
-
-            return View();
-        }
-
-        //------------------------------------------------------        
-
-        // Monoalphabetic Cipher Algorithm
-        static string MonoalphabeticEncrypt(string plainText, string key)
-        {
-            char[] chars = new char[plainText.Length];
-            for (int i = 0; i < plainText.Length; i++)
-            {
-                if (plainText[i] == ' ')
-                {
-                    chars[i] = ' ';
-                }
-
-                else
-                {
-                    int j = plainText[i] - 97;
-                    chars[i] = key[j];
-                }
-            }
-
-            return new string(chars);
-        }
-
-        static string MonoalphabeticDecrypt(string cipherText, string key)
-        {
-            char[] chars = new char[cipherText.Length];
-            for (int i = 0; i < cipherText.Length; i++)
-            {
-                if (cipherText[i] == ' ')
-                {
-                    chars[i] = ' ';
-                }
-                else
-                {
-                    int j = key.IndexOf(cipherText[i]) + 97;
-                    chars[i] = (char)j;
-                }
-            }
-            return new string(chars);
-        }
         //Playfair Cipher Algorithm
         private static int PlayfairMod(int a, int b)
         {
@@ -224,7 +110,6 @@ namespace encryption.Controllers
                         col = j;
                     }
         }
-
         private static char[] PlayfairSameRow(ref char[,] keySquare, int row, int col1, int col2, int encipher)
         {
             return new char[] { keySquare[row, PlayfairMod((col1 + encipher), 5)], keySquare[row, PlayfairMod((col2 + encipher), 5)] };
@@ -324,66 +209,5 @@ namespace encryption.Controllers
         {
             return Playfair(input, key, false);
         }
-
-        //Hill Cipher Algorithm
-        public static void HillCiphergetKeyMatrix(String key,
-                         int[,] keyMatrix)
-        {
-            int k = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    keyMatrix[i, j] = (key[k]) % 65;
-                    k++;
-                }
-            }
-        }
-
-        public static void HillCipherEncrypt(int[,] cipherMatrix,
-                            int[,] keyMatrix,
-                            int[,] messageVector)
-        {
-            int x, i, j;
-            for (i = 0; i < 3; i++)
-            {
-                for (j = 0; j < 1; j++)
-                {
-                    cipherMatrix[i, j] = 0;
-
-                    for (x = 0; x < 3; x++)
-                    {
-                        cipherMatrix[i, j] += keyMatrix[i, x] *
-                                              messageVector[x, j];
-                    }
-
-                    cipherMatrix[i, j] = cipherMatrix[i, j] % 26;
-                }
-            }
-        }
-
-        public static string HillCipher(String message, String key)
-        {
-
-            int[,] keyMatrix = new int[3, 3];
-            HillCiphergetKeyMatrix(key, keyMatrix);
-
-            int[,] messageVector = new int[3, 1];
-
-            for (int i = 0; i < 3; i++)
-                messageVector[i, 0] = (message[i]) % 65;
-
-            int[,] cipherMatrix = new int[3, 1];
-
-            HillCipherEncrypt(cipherMatrix, keyMatrix, messageVector);
-
-            String CipherText = "";
-
-            for (int i = 0; i < 3; i++)
-                CipherText += (char)(cipherMatrix[i, 0] + 65);
-
-            return CipherText;
-        }
-
     }
 }
