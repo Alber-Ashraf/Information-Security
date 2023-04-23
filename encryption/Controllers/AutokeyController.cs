@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
@@ -49,27 +50,21 @@ namespace encryption.Controllers
 
         public static string AutokeyEncrypt(string plaintext, string key)
         {
+
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
             string fullKey = key + plaintext;
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                if (plaintext[i] == ' ')
-                {
-                    ciphertext += ' ';
-                }
-                else
-                {
-                    int shift = fullKey[i] - 'A';
-                    char encryptedChar = (char)(((plaintext[i] - 'A' + shift) % 26) + 'A');
-                    ciphertext += encryptedChar;
-                }              
+                int shift = fullKey[i] - 'A';
+                char encryptedChar = (char)(((plaintext[i] - 'A' + shift) % 26) + 'A');
+                ciphertext += encryptedChar;
             }
 
             return ciphertext;
@@ -78,28 +73,20 @@ namespace encryption.Controllers
         public static string AutokeyDecrypt(string plaintext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
             string fullKey = key;
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                if (plaintext[i] == ' ')
-                {
-                    ciphertext += ' ';
-                }
-                else
-                {
-                    int shift = fullKey[i] - 'A';
-                    char decryptedChar = (char)(((plaintext[i] - 'A' - shift + 26) % 26) + 'A');
-                    ciphertext += decryptedChar;
-
-                    fullKey += decryptedChar;
-                }
+                int shift = fullKey[i] - 'A';
+                char decryptedChar = (char)(((plaintext[i] - 'A' - shift + 26) % 26) + 'A');
+                ciphertext += decryptedChar;
+                fullKey += decryptedChar;
             }
 
             return ciphertext;

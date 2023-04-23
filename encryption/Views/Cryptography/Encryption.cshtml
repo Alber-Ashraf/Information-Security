@@ -9,47 +9,44 @@
       <ul>
         <li>
             <div class="title">Caesar Cipher</div>
-            <div class="description">The encryption process using the Caesar cipher is straightforward.</div>
             <div class="actions">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Caesar" asp-action="CaesarEncryption">Encrypt</a>
             </div>
         </li>
         <li>
-            <div class="title">Monoalphabetic</div>
-            <div class="description">This is the description for item 2.</div>
+                <div class="title">Monoalphabetic Cipher</div>
             <div class="actions">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Monoalphabetic" asp-action="MonoalphabeticEncryption">Encrypt</a>
             </div>
         </li>
         <li>
-            <div class="title">Playfair</div>
-            <div class="description">This is the description for item 3.</div>
+                <div class="title">Playfair Cipher</div>
             <div class="actions">
                <a class="nav-link text-dark" asp-area="" asp-controller="Playfair" asp-action="PlayfairEncryption">Encrypt</a>
             </div>
         </li>
         <li>
-            <div class="title">Polyalphabetic</div>
-            <div class="description">This is the description for item 3.</div>
+                <div class="title">Polyalphabetic Cipher</div>
             <div class="actions">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Polyalphabetic" asp-action="PolyalphabeticEncryption">Encrypt</a>
             </div>
         </li>
         <li>
-            <div class="title">Vigenere</div>
-            <div class="description">This is the description for item 3.</div>
+                <div class="title">Vigenere Cipher</div>
             <div class="actions">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Vigenere" asp-action="VigenereEncryption">Encrypt</a>
             </div>
         </li>
         <li>
-            <div class="title">Autokey</div>
-            <div class="description">This is the description for item 3.</div>
+                <div class="title">Autokey Cipher</div>
             <div class="actions">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Autokey" asp-action="AutokeyEncryption">Encrypt</a>
             </div>
         </li>
       </ul>
+    </div>
+    <div class="cont">
+        <a id="back" class="btn btn-primary" asp-area="" asp-controller="Home" asp-action="index">Back</a>
     </div>
   </body>
 <style>
@@ -59,9 +56,17 @@
         background-color: #f0f0f0;
     }
 
+    .cont {
+        text-align: center;
+    }
+
+        .cont a {
+            display: inline-block;
+        }
+
     h1 {
         text-align: center;
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     .list {
