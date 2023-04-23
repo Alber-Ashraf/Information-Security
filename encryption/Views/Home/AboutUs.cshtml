@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Cryptography";
+}
+
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <main>
+        <section class="hero">
+            <h1>Cryptography</h1>
+            <p>Cryptography website provides a way for users to encrypt their data using various encryption algorithms and keys. The encrypted data can then be sent securely over the internet, and only the intended recipient with the decryption key can access and read the original message.</p>
+        </section>
+        <section class="features">
+            <div class="feature">
+                <i class="fa fa-mobile"></i>
+                <h2>Responsive Design</h2>
+                <p>The Cryptography website is fully responsive and fits any screen, whether it is a computer or mobile screen .</p>
+            </div>
+            <div class="feature">
+                <i class="fa fa-code"></i>
+                <h2>Clean Code</h2>
+                <p>The web application is based on MVC Arctecture(Model, view, controll).</p>
+            </div>
+            <div class="feature">
+                <i class="fa fa-cog"></i>
+                <h2>Customizable</h2>
+                <p>An easy way to add new encryption or decryption algorithms.</p>
+            </div>
+        </section>
+    </main>
+</body>
+
+<style>
+      /* CSS styles for the page */
+    body {
+        margin: 0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #333;
+    }
+
+    .hero {
+        background-image: url('hero-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        padding: 100px 0;
+    }
+
+        .hero h1 {
+            font-size: 48px;
+        }
+
+        .hero p {
+            font-size: 20px;
+        }
+
+    .cta {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .cta:hover {
+            background-color: #0062cc;
+        }
+
+    .features {
+        display: flex;
+        justify-content: space-between;
+        margin: 100px 0;
+    }
+
+    .feature {
+        flex-basis: 30%;
+        text-align: center;
+    }
+
+        .feature i {
+            font-size: 48px;
+        }
+
+        .feature h2 {
+            font-size: 24px;
+        }
+
+        .feature p {
+            font-size: 16px;
+        }
+</style>
