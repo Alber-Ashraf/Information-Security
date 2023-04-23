@@ -37,8 +37,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Cryptography    <a class="text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
+        <div class="container" id="container">
+            &copy; 2023 - Cryptography. <a class="text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
         </div>
         
     </footer>
@@ -47,4 +47,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<style>
+    /* CSS styles for all pages */
+body {
+        margin: 0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #333;
+        background-color: #f0f0f0;
+    }
+</style>
 </html>

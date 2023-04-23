@@ -6,29 +6,9 @@
 <body>
 
     <h2>Caesar Cipher</h2>
-    <div class="column">
-        <form method="post">
 
-            <div class="form-group">
-                <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " required/>
-            </div>
-            <br />
+    @Html.Partial("_DecryptionField")
 
-            <div class="form-group">
-                <input type="text" class="form-control" id="key" name="key" placeholder="Key : " required/>
-            </div>
-            <br />
-
-            <button class="btn btn-primary" type="submit">Decrypt</button>
-
-        </form>
-        <br />
-
-        <div class="form-control">
-            <label>Decryption: </label>
-            @ViewBag.Massage
-        </div>
-    </div>
     <div class="column" id="Example">
         <p>Example: </p>
         <div class="form-control">
@@ -57,16 +37,6 @@
 
 <style>
     /* CSS styles for the page */
-
-    body {
-        margin: 0;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 16px;
-        line-height: 1.25;
-        color: #333;
-        background-color: #f0f0f0;
-    }
-
     .column {
         float: left;
         width: 50%;
