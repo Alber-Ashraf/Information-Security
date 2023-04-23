@@ -7,8 +7,29 @@
 
     <h2>Polyalphabetic Cipher</h2>
 
-    @Html.Partial("_EncryptionField")
+    <div class="column">
+        <form method="post">
 
+            <div class="form-group">
+                <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " required/>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key : " required/>
+            </div>
+            <br />
+
+            <button class="btn btn-primary" type="submit">Encrypt</button>
+
+        </form>
+        <br />
+
+        <div class="form-control">
+            <label>Encryption: </label>
+            @ViewBag.Massage
+        </div>
+    </div>
     <div class="column" id="Example">
         <p>Example: </p>
         <div class="form-control">
