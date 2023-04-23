@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
@@ -6,6 +7,8 @@ namespace encryption.Controllers
     public class CaesarController : Controller
     {
         //Encryption Action
+
+        [Authorize]
         public IActionResult CaesarEncryption()
         {
             return View();
@@ -26,6 +29,8 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
+
+        [Authorize]
         public IActionResult CaesarDecryption()
         {
             return View();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +8,8 @@ namespace encryption.Controllers
     public class PlayfairController : Controller
     {
         //Encryption Action
+
+        [Authorize]
         public IActionResult PlayfairEncryption()
         {
             return View();
@@ -27,6 +30,8 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
+
+        [Authorize]
         public IActionResult PlayfairDecryption()
         {
             return View();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
 
@@ -6,7 +7,9 @@ namespace encryption.Controllers
 {
     public class VigenereController : Controller
     {
+
         //Encryption Action
+        [Authorize]
         public IActionResult VigenereEncryption()
         {
             return View();
@@ -27,6 +30,7 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
+        [Authorize]
         public IActionResult VigenereDecryption()
         {
             return View();

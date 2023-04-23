@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
 {
     public class PolyalphabeticController : Controller
     {
+
         //Encryption Action
+
+        [Authorize]
         public IActionResult PolyalphabeticEncryption()
         {
             return View();
@@ -26,6 +30,8 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
+
+        [Authorize]
         public IActionResult PolyalphabeticDecryption()
         {
             return View();

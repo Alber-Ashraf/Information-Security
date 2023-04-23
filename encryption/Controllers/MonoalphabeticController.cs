@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
@@ -6,6 +7,8 @@ namespace encryption.Controllers
     public class MonoalphabeticController : Controller
     {
         //Encryption Action
+
+        [Authorize]
         public IActionResult MonoalphabeticEncryption()
         {
             return View();
@@ -26,6 +29,8 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
+
+        [Authorize]
         public IActionResult MonoalphabeticDecryption()
         {
             return View();
