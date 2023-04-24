@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using NuGet.Packaging;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -18,14 +19,23 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult AESEncryption(string plainText)
+        public IActionResult AESEncryption(string plainText, string key, string iv)
         {
-            using (AesManaged aes = new AesManaged())
+            if(key.Length == 32 && iv.Length == 16)
             {
-                byte[] encrypted = AESEncrypt(plainText, aes.Key, aes.IV);
+                byte[] key1 = Encoding.UTF8.GetBytes(key);
+                byte[] iv1 = Encoding.UTF8.GetBytes(iv);
 
-                ViewBag.Massage = System.Text.Encoding.UTF8.GetString(encrypted);
+                // Encrypt the original text
+                byte[] encrypted = AESEncrypt(plainText, key1, iv1);
+
+                ViewBag.Massage = Convert.ToBase64String(encrypted);
             }
+            else
+            {
+                ViewBag.Massage = "The Key Length must be 32 bytes and IV Length must be 16 bytes";
+            }
+
             return View();
         }
 
@@ -38,74 +48,91 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult AESDecryption(string plainText)
+        public IActionResult AESDecryption(string plainText, string key, string iv)
         {
-            byte[] cipherText = new byte[plainText.Length]; ;
-
-            int i = 0;
-            foreach (char c in plainText)
+            if (key.Length == 32 && iv.Length == 16)
             {
-                cipherText[i] = (byte)c;
-                i++;
-            }
-            using (AesManaged aes = new AesManaged())
-            {
-                string decrypted = AESDecrypt(cipherText, aes.Key, aes.IV);
+                byte[] newKey = Encoding.UTF8.GetBytes(key);
+                byte[] newIv = Encoding.UTF8.GetBytes(iv);
 
-                ViewBag.Massage = decrypted;
+                ViewBag.Massage = AESDecrypt(plainText, newKey, newIv);
             }
+            else
+            {
+                ViewBag.Massage = "The Key Length must be 32 bytes and IV Length must be 16 bytes";
+            }
+            
+
             return View();
         }
 
         //AES Chipher Algorithm
 
-        static byte[] AESEncrypt(string plainText, byte[] Key, byte[] IV)
+        static byte[] AESEncrypt(string plainText, byte[] key, byte[] iv)
         {
+            // Check arguments
+            if (string.IsNullOrEmpty(plainText))
+                throw new ArgumentNullException("plainText");
+            if (key == null || key.Length == 0)
+                throw new ArgumentNullException("key");
+            if (iv == null || iv.Length == 0)
+                throw new ArgumentNullException("iv");
+
             byte[] encrypted;
-            // Create a new AesManaged.
-            using (AesManaged aes = new AesManaged())
+
+            using (Aes aes = Aes.Create())
             {
-                // Create encryptor
-                ICryptoTransform encryptor = aes.CreateEncryptor(Key, IV);
-                // Create MemoryStream
-                using (MemoryStream ms = new MemoryStream())
+                aes.Key = key;
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream msEncrypt = new MemoryStream())
                 {
-                    // Create crypto stream using the CryptoStream class. This class is the key to encryption
-                    // and encrypts and decrypts data from any given stream. In this case, we will pass a memory stream
-                    // to encrypt
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        // Create StreamWriter and write data to a stream
-                        using (StreamWriter sw = new StreamWriter(cs))
-                            sw.Write(plainText);
-                        encrypted = ms.ToArray();
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
                     }
                 }
             }
-            // Return encrypted data
             return encrypted;
         }
-        static string AESDecrypt(byte[] cipherText, byte[] Key, byte[] IV)
+
+        static string AESDecrypt(string encryptedData, byte[] key, byte[] iv)
         {
-            string plaintext = null;
-            // Create AesManaged
-            using (AesManaged aes = new AesManaged())
+            // Convert the encrypted data from base64 string to byte array
+            byte[] encryptedBytes = Convert.FromBase64String(encryptedData);
+
+            // Create a new instance of AesCryptoServiceProvider
+            using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
             {
-                // Create a decryptor
-                ICryptoTransform decryptor = aes.CreateDecryptor(Key, IV);
-                // Create the streams used for decryption.
-                using (MemoryStream ms = new MemoryStream(cipherText))
+                // Set the key and IV
+                aes.Key = key;
+                aes.IV = iv;
+
+                // Create a new instance of MemoryStream to write the decrypted data to
+                using (MemoryStream msDecrypt = new MemoryStream())
                 {
-                    // Create crypto stream
-                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    // Create a new instance of CryptoStream to perform the decryption
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, aes.CreateDecryptor(), CryptoStreamMode.Write))
                     {
-                        // Read crypto stream
-                        using (StreamReader reader = new StreamReader(cs))
-                            plaintext = reader.ReadToEnd();
+                        // Write the encrypted data to the CryptoStream
+                        csDecrypt.Write(encryptedBytes, 0, encryptedBytes.Length);
+
+                        // Flush the final block of data through the CryptoStream
+                        csDecrypt.FlushFinalBlock();
+
+                        // Convert the decrypted data to string
+                        string decryptedData = Encoding.UTF8.GetString(msDecrypt.ToArray());
+
+                        return decryptedData;
                     }
                 }
             }
-            return plaintext;
         }
     }
 }

@@ -14,13 +14,21 @@
                 <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " required />
             </div>
             <br />
+            <div class="form-group">
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key : " required />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="text" class="form-control" id="iv" name="iv" placeholder="Iv : " required />
+            </div>
+            <br />
             <button class="btn btn-primary" type="submit">Encrypt</button>
 
         </form>
         <br />
 
         <div class="form-control">
-            <label>Encryption: </label>
+            <label></label>
             @ViewBag.Massage
         </div>
     </div>
@@ -33,8 +41,19 @@
         </div>
         <br />
         <div class="form-control">
-            <label>Encryption: </label>
-            TALETMTCMGETWMFXHRDY
+            <label>Key: </label>
+            ojs#hf(9ndo@j4hDn$8b$j@9b$un$j5$
+        </div>
+        <br />
+        <div class="form-control">
+            <label>Plaintext: </label>
+            TTd#fl)fn!bv4P0vh_
+        </div>
+        <br />
+        <div class="form-control">
+            <label>Decryption: </label>
+            KHS32jN6f4goIafBUDhmXUKo8+XUERrl0pg6ldzn6/k=
+
         </div>
     </div>
     <div class="clear"></div>
@@ -63,7 +82,11 @@
     }
 
     #key {
-        width: 15%
+        width: 48%
+    }
+
+    #iv {
+        width: 26%
     }
 
     .cont {
