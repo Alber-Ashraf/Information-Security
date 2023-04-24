@@ -57,10 +57,10 @@ namespace encryption.Controllers
         {
 
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
 
             string ciphertext = "";
             string fullKey = key + plaintext;
@@ -78,10 +78,10 @@ namespace encryption.Controllers
         public static string AutokeyDecrypt(string plaintext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
 
             string ciphertext = "";
             string fullKey = key;

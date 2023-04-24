@@ -13,18 +13,22 @@
                     <a class="nav-link bg-dark text-light" asp-area="" asp-controller="Caesar" asp-action="CaesarEncryption">Encrypt</a>
             </div>
         </li>
-        <li>
-                <div class="title">Monoalphabetic Cipher</div>
-            <div class="actions">
-                    <a class="nav-link bg-dark text-light" asp-area="" asp-controller="Monoalphabetic" asp-action="MonoalphabeticEncryption">Encrypt</a>
-            </div>
-        </li>
-        <li>
+        @{
+                /*<li>
                 <div class="title">Playfair Cipher</div>
-            <div class="actions">
-                    <a class="nav-link bg-dark text-light" asp-area="" asp-controller="Playfair" asp-action="PlayfairEncryption">Encrypt</a>
-            </div>
-        </li>
+                <div class="actions">
+                <a class="nav-link bg-dark text-light" asp-area="" asp-controller="Playfair" asp-action="PlayfairDecryption">Encrypt</a>
+                </div>
+                </li>*/
+            }
+        @{
+                /*<li>
+                <div class="title">Playfair Cipher</div>
+                <div class="actions">
+                <a class="nav-link bg-dark text-light" asp-area="" asp-controller="Playfair" asp-action="PlayfairDecryption">Encrypt</a>
+                </div>
+                </li>*/
+            }
         <li>
                 <div class="title">Polyalphabetic Cipher</div>
             <div class="actions">
