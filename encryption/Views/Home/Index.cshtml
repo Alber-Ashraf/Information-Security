@@ -6,31 +6,28 @@
     <title>@ViewData["Title"]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body class="bg-dark">
     <div class="feature">
-        <i class="fa fa-mobile"></i>
-        <h1>Cryptography</h1>
-        <p>the way to secure your messages</p>
+        <h1 class="text-light">Cryptography</h1>
+        <p class="text-light">the way to secure your messages</p>
     </div>
 </body>
 
 <style>
     /* CSS styles for the page */
     .feature {
-        flex-basis: 30%;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        flex-direction: column;
     }
-
-        .feature i {
-            font-size: 48px;
-        }
-
         .feature h1 {
             margin-top: 10%;
-            font-size: 50px;
+            font-size: 100px;
+            font-weight: bold;
         }
 
         .feature p {
-            font-size: 24px;
+            font-size: 35px;
         }
 </style>

@@ -3,8 +3,8 @@
     <title>Decryption</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-    <h1>Decryption Algorithms</h1>
+<body class="bg-dark">
+    <h1 class="text-light">Decryption Algorithms</h1>
     <div class="list">
         <ul>
             <li>
@@ -43,6 +43,13 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Autokey" asp-action="AutokeyDecryption">Decrypt</a>
                 </div>
             </li>
+            <li>
+                <div class="title">AES</div>
+                <div>Advanced Algorithm</div>
+                <div class="actions">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="AES" asp-action="AESDecryption">Decrypt</a>
+                </div>
+            </li>
         </ul>
     </div>
     <div class="cont">
@@ -60,7 +67,7 @@
 
     h1 {
         text-align: center;
-        margin-top: 30px;
+        margin-top: 15px;
     }
 
     .list {
