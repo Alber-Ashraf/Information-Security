@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
@@ -20,7 +21,7 @@ namespace encryption.Controllers
         {
             if (!String.IsNullOrEmpty(plainText))
             {
-                ViewBag.Massage = VigenereEncrypt(plainText, key);
+                ViewBag.Massage = VigenereEncrypt(plainText, RepeatKey(key, plainText.Length));
 
             }
             else
@@ -37,11 +38,11 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult VigenereDecryption(string plainText, string Key)
+        public IActionResult VigenereDecryption(string plainText, string key)
         {
             if (!String.IsNullOrEmpty(plainText))
             {
-                ViewBag.Massage = VigenereDecrypt(plainText, Key);
+                ViewBag.Massage = VigenereDecrypt(plainText, RepeatKey(key, plainText.Length));
 
             }
             else
@@ -61,56 +62,43 @@ namespace encryption.Controllers
             key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
-            int keywordIndex = 0;
 
-            foreach (char c in plaintext)
+            for (int i = 0; i < plaintext.Length; i++)
             {
-                if (c == ' ')
-                {
-                    ciphertext += ' ';
-                }
-                else
-                {
-                    int shift = key[keywordIndex] - 'A';
-                    char encryptedChar = (char)(((c - 'A' + shift) % 26) + 'A');
-                    ciphertext += encryptedChar;
-
-                    keywordIndex = (keywordIndex + 1) % key.Length;
-                }
+                char encryptedChar = (char)(((((int)plaintext[i] - 'A') + ((int)key[i] - 'A')) % 26) + 'A');
+                ciphertext += encryptedChar;
             }
 
             return ciphertext;
         }
 
-        public static string VigenereDecrypt(string plaintext, string key)
+        public static string VigenereDecrypt(string ciphertext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
+            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
             key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
-            string ciphertext = "";
-            int keywordIndex = 0;
+            string plaintext = "";
 
-            foreach (char c in plaintext)
+            for (int i = 0; i < ciphertext.Length; i++)
             {
-                if (c == ' ')
-                {
-                    ciphertext += ' ';
-                }
-                else
-                {
-                    int shift = key[keywordIndex] - 'A';
-                    char decryptedChar = (char)(((c - 'A' - shift + 26) % 26) + 'A');
-                    ciphertext += decryptedChar;
-
-                    keywordIndex = (keywordIndex + 1) % key.Length;
-                }
-                
+                char plainChar = (char)(((((int)ciphertext[i] - 'A') - ((int)key[i] - 'A')) + 26) % 26 + 'A');
+                plaintext += plainChar;
             }
 
-            return ciphertext;
+            return plaintext;
+        }
+
+        public static string RepeatKey(string key, int length)
+        {
+            StringBuilder repeatedKey = new StringBuilder();
+            while (repeatedKey.Length < length)
+            {
+                repeatedKey.Append(key);
+            }
+            return repeatedKey.ToString().Substring(0, length);
         }
     }
 }
