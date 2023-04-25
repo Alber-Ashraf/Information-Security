@@ -56,13 +56,13 @@ namespace encryption.Controllers
         public static string CaesarEncrypt(string plaintext, int key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ");
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
             foreach (char c in plaintext)
             {
-                char shifted = (char)(((int)char.ToUpper(c) + key - 65) % 26 + 65);
-                ciphertext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
+                char encryptedChar = (char)((((int)c - 'A' + key) % 26) + 'A');
+                ciphertext += encryptedChar;
             }
             return ciphertext;
         }
@@ -70,13 +70,13 @@ namespace encryption.Controllers
         public static string CaesarDecrypt(string ciphertext, int key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", " ");
+            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", "").ToUpper();
 
             string plaintext = "";
             foreach (char c in ciphertext)
             {
-                char shifted = (char)(((int)char.ToUpper(c) - key - 65 + 26) % 26 + 65);
-                plaintext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
+                char decryptedChar = (char)((((int)c - 'A' - key + 26) % 26) + 'A');
+                plaintext += decryptedChar;
             }
             return plaintext;
         }
