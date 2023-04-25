@@ -69,13 +69,8 @@ namespace encryption.Controllers
                     char char2 = plaintext[i + 1];
                     char char3 = plaintext[i + 2];
 
-                    // Shift the first letter three positions to the right
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
-
-                    // Shift the second letter five positions to the right
                     char2 = (char)((char2 - 'A' + shift2) % 26 + 'A');
-
-                    // Shift the third letter seven positions to the right
                     char3 = (char)((char3 - 'A' + shift3) % 26 + 'A');
 
                     ciphertext += char1.ToString() + char2.ToString() + char3.ToString();
@@ -86,10 +81,7 @@ namespace encryption.Controllers
                     char char1 = plaintext[i];
                     char char2 = plaintext[i + 1];
 
-                    // Shift the first letter three positions to the right
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
-
-                    // Shift the second letter five positions to the right
                     char2 = (char)((char2 - 'A' + shift2) % 26 + 'A');
 
                     ciphertext += char1.ToString() + char2.ToString() + "x";
@@ -99,7 +91,6 @@ namespace encryption.Controllers
                     // If there is only one character left, pad with 'x'
                     char char1 = plaintext[i];
 
-                    // Shift the first letter three positions to the right
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
 
                     ciphertext += char1.ToString() + "xx";
@@ -125,13 +116,8 @@ namespace encryption.Controllers
                 char char2 = ciphertext[i + 1];
                 char char3 = ciphertext[i + 2];
 
-                // Shift the first letter three positions to the left
                 char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
-
-                // Shift the second letter five positions to the left
                 char2 = (char)((char2 - 'A' + 26 - shift2) % 26 + 'A');
-
-                // Shift the third letter seven positions to the left
                 char3 = (char)((char3 - 'A' + 26 - shift3) % 26 + 'A');
 
                 plaintext += char1.ToString() + char2.ToString() + char3.ToString();
