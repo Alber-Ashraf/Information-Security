@@ -61,15 +61,8 @@ namespace encryption.Controllers
             string ciphertext = "";
             foreach (char c in plaintext)
             {
-                if (char.IsLetter(c))
-                {
-                    char shifted = (char)(((int)char.ToUpper(c) + key - 65) % 26 + 65);
-                    ciphertext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
-                }
-                else
-                {
-                    ciphertext += c;
-                }
+                char shifted = (char)(((int)char.ToUpper(c) + key - 65) % 26 + 65);
+                ciphertext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
             }
             return ciphertext;
         }
@@ -82,15 +75,8 @@ namespace encryption.Controllers
             string plaintext = "";
             foreach (char c in ciphertext)
             {
-                if (char.IsLetter(c))
-                {
-                    char shifted = (char)(((int)char.ToUpper(c) - key - 65 + 26) % 26 + 65);
-                    plaintext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
-                }
-                else
-                {
-                    plaintext += c;
-                }
+                char shifted = (char)(((int)char.ToUpper(c) - key - 65 + 26) % 26 + 65);
+                plaintext += char.IsLower(c) ? char.ToLower(shifted) : shifted;
             }
             return plaintext;
         }

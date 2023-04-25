@@ -16,11 +16,11 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult PolyalphabeticEncryption(string plainText, string key)
+        public IActionResult PolyalphabeticEncryption(string plainText)
         {
             if (!String.IsNullOrEmpty(plainText))
             {
-                ViewBag.Massage = PolyalphabeticEncrypt(plainText, key);
+                ViewBag.Massage = PolyalphabeticEncrypt(plainText);
 
             }
             else
@@ -38,11 +38,11 @@ namespace encryption.Controllers
         }
 
         [HttpPost]
-        public IActionResult PolyalphabeticDecryption(string plainText, string Key)
+        public IActionResult PolyalphabeticDecryption(string plainText)
         {
             if (!String.IsNullOrEmpty(plainText))
             {
-                ViewBag.Massage = PolyalphabeticDecrypt(plainText, Key);
+                ViewBag.Massage = PolyalphabeticDecrypt(plainText);
 
             }
             else
@@ -51,94 +51,93 @@ namespace encryption.Controllers
             return View();
         }
 
-        public static string PolyalphabeticEncrypt(string plaintext, string key)
+        public static string PolyalphabeticEncrypt(string plaintext)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
-            // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
-
-            // Generate the key matrix based on the key
-            int[,] keyMatrix = GenerateKeyMatrix(key);
-
-            // Encrypt the plaintext using the key matrix
             string ciphertext = "";
-            int keySize = key.Length;
-            for (int i = 0; i < plaintext.Length; i++)
+            int shift1 = 3;
+            int shift2 = 5;
+            int shift3 = 7;
+
+            for (int i = 0; i < plaintext.Length; i += 3)
             {
-                if (plaintext[i] == ' ')
+                if (i + 2 < plaintext.Length)
                 {
-                    ciphertext += ' ';
+                    char char1 = plaintext[i];
+                    char char2 = plaintext[i + 1];
+                    char char3 = plaintext[i + 2];
+
+                    // Shift the first letter three positions to the right
+                    char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
+
+                    // Shift the second letter five positions to the right
+                    char2 = (char)((char2 - 'A' + shift2) % 26 + 'A');
+
+                    // Shift the third letter seven positions to the right
+                    char3 = (char)((char3 - 'A' + shift3) % 26 + 'A');
+
+                    ciphertext += char1.ToString() + char2.ToString() + char3.ToString();
+                }
+                else if (i + 1 < plaintext.Length)
+                {
+                    // If there are only two characters left, pad with 'x'
+                    char char1 = plaintext[i];
+                    char char2 = plaintext[i + 1];
+
+                    // Shift the first letter three positions to the right
+                    char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
+
+                    // Shift the second letter five positions to the right
+                    char2 = (char)((char2 - 'A' + shift2) % 26 + 'A');
+
+                    ciphertext += char1.ToString() + char2.ToString() + "x";
                 }
                 else
                 {
-                    char c = plaintext[i];
-                    int rowIndex = i % keySize;
-                    int colIndex = c - 'A';
-                    int encrypted = keyMatrix[rowIndex, colIndex];
-                    ciphertext += (char)(encrypted + 'A');
-                }  
+                    // If there is only one character left, pad with 'x'
+                    char char1 = plaintext[i];
+
+                    // Shift the first letter three positions to the right
+                    char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
+
+                    ciphertext += char1.ToString() + "xx";
+                }
             }
 
             return ciphertext;
         }
 
-        public static string PolyalphabeticDecrypt(string ciphertext, string key)
+        public static string PolyalphabeticDecrypt(string ciphertext)
         {
             // Remove any non-letter characters from the ciphertext and convert to uppercase
-            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", " ").ToUpper();
+            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", "").ToUpper();
 
-            // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
-
-            // Generate the key matrix based on the key
-            int[,] keyMatrix = GenerateKeyMatrix(key);
-
-            // Decrypt the ciphertext using the key matrix
             string plaintext = "";
-            int keySize = key.Length;
-            for (int i = 0; i < ciphertext.Length; i++)
+            int shift1 = 3;
+            int shift2 = 5;
+            int shift3 = 7;
+
+            for (int i = 0; i < ciphertext.Length; i += 3)
             {
-                if (ciphertext[i] == ' ')
-                {
-                    plaintext += ' ';
-                }
-                else
-                {
-                    char c = ciphertext[i];
-                    int rowIndex = i % keySize;
-                    int[] row = GetRow(keyMatrix, rowIndex);
-                    int decrypted = Array.IndexOf(row, c - 'A');
-                    plaintext += (char)(decrypted + 'A');
-                } 
+                char char1 = ciphertext[i];
+                char char2 = ciphertext[i + 1];
+                char char3 = ciphertext[i + 2];
+
+                // Shift the first letter three positions to the left
+                char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
+
+                // Shift the second letter five positions to the left
+                char2 = (char)((char2 - 'A' + 26 - shift2) % 26 + 'A');
+
+                // Shift the third letter seven positions to the left
+                char3 = (char)((char3 - 'A' + 26 - shift3) % 26 + 'A');
+
+                plaintext += char1.ToString() + char2.ToString() + char3.ToString();
             }
+
             return plaintext;
-        }
-
-        private static int[,] GenerateKeyMatrix(string key)
-        {
-            int keySize = key.Length;
-            int[,] keyMatrix = new int[keySize, 26];
-            for (int i = 0; i < keySize; i++)
-            {
-                int shift = key[i] - 'A';
-                for (int j = 0; j < 26; j++)
-                {
-                    keyMatrix[i, j] = (j + shift) % 26;
-                }
-            }
-            return keyMatrix;
-        }
-
-        private static int[] GetRow(int[,] matrix, int rowIndex)
-        {
-            int[] row = new int[matrix.GetLength(1)];
-            for (int j = 0; j < matrix.GetLength(1); j++)
-            {
-                row[j] = matrix[rowIndex, j];
-            }
-            return row;
         }
     }
 }
