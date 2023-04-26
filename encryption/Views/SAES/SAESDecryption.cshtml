@@ -5,30 +5,28 @@
 
 <body class="bg-dark">
 
-    <h2 class="text-light">AES</h2>
+    <h2 class="text-light">SAES</h2>
 
     <div class="column">
         <form method="post">
 
             <div class="form-group">
-                <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " required />
+                <input type="text" class="form-control" id="ciphertext" name="ciphertext" placeholder="Ciphertext : " required />
             </div>
             <br />
+
             <div class="form-group">
                 <input type="text" class="form-control" id="key" name="key" placeholder="Key : " required />
             </div>
             <br />
-            <div class="form-group">
-                <input type="text" class="form-control" id="iv" name="iv" placeholder="Iv : " required />
-            </div>
-            <br />
+
             <button class="btn btn-primary" type="submit">Decrypt</button>
 
         </form>
         <br />
 
         <div class="form-control">
-            <label></label>
+            <label>Decryption: </label>
             @ViewBag.Massage
         </div>
     </div>
@@ -36,22 +34,17 @@
         <p class="text-light">Example: </p>
         <div class="form-control">
             <label>Plaintext: </label>
-            KHS32jN6f4goIafBUDhmXUKo8+XUERrl0pg6ldzn6/k=
+            TALETMTCMGETWMFXHRDY
         </div>
         <br />
         <div class="form-control">
             <label>Key: </label>
-            ojs#hf(9ndo@j4hDn$8b$j@9b$un$j5$
-        </div>
-        <br />
-        <div class="form-control">
-            <label>IV: </label>
-            d#fl)fn!bv4P0v@h
+            a
         </div>
         <br />
         <div class="form-control">
             <label>Decryption: </label>
-            The attack will be today
+            THEATTACKWILLBETODAY
         </div>
     </div>
     <div class="clear"></div>
@@ -80,10 +73,6 @@
     }
 
     #key {
-        width: 48%
-    }
-
-    #iv {
         width: 26%
     }
 
