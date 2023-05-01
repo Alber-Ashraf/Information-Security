@@ -62,7 +62,6 @@ namespace encryption.Controllers
                 }
                 else if (i + 1 < plaintext.Length)
                 {
-                    // If there are only two characters left, pad with 'x'
                     char char1 = plaintext[i];
                     char char2 = plaintext[i + 1];
 
@@ -73,7 +72,6 @@ namespace encryption.Controllers
                 }
                 else
                 {
-                    // If there is only one character left, pad with 'x'
                     char char1 = plaintext[i];
 
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
@@ -111,7 +109,6 @@ namespace encryption.Controllers
                 }
                 else if (i + 1 < ciphertext.Length)
                 {
-                    // If there are only two characters left, pad with 'x'
                     char char1 = ciphertext[i];
                     char char2 = ciphertext[i + 1];
 
@@ -122,7 +119,6 @@ namespace encryption.Controllers
                 }
                 else
                 {
-                    // If there is only one character left, pad with 'x'
                     char char1 = ciphertext[i];
 
                     char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
