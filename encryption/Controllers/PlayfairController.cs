@@ -9,7 +9,6 @@ namespace encryption.Controllers
     {
         //Encryption Action
 
-        [Authorize]
         public IActionResult PlayfairEncryption()
         {
             return View();
@@ -18,35 +17,22 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult PlayfairEncryption(string plainText, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = PlayfairEncrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = PlayfairEncrypt(plainText, key);
 
             return View();
         }
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult PlayfairDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult PlayfairDecryption(string plainText, string key)
+        public IActionResult PlayfairDecryption(string ciphertext, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = PlayfairDecrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = PlayfairDecrypt(ciphertext, key);
 
             return View();
         }
@@ -208,23 +194,23 @@ namespace encryption.Controllers
         public static string PlayfairEncrypt(string plaintext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             return Playfair(plaintext, key, true);
         }
 
-        public static string PlayfairDecrypt(string plaintext, string key)
+        public static string PlayfairDecrypt(string chiphertext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            chiphertext = Regex.Replace(chiphertext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
-            return Playfair(plaintext, key, false);
+            return Playfair(chiphertext, key, false);
         }
     }
 }

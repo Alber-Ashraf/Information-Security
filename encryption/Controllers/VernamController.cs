@@ -9,7 +9,6 @@ namespace encryption.Controllers
     public class VernamController : Controller
     {
         //Encryption Action
-        [Authorize]
         public IActionResult VernamEncryption()
         {
             return View();
@@ -30,18 +29,17 @@ namespace encryption.Controllers
         }
 
         //Decryption Action
-        [Authorize]
         public IActionResult VernamDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult VernamDecryption(string plainText, string key)
+        public IActionResult VernamDecryption(string ciphertext, string key)
         {
-            if (Regex.IsMatch(plainText, "^[01]+$") && Regex.IsMatch(key, "^[01]+$"))
+            if (Regex.IsMatch(ciphertext, "^[01]+$") && Regex.IsMatch(key, "^[01]+$"))
             {
-                ViewBag.Massage = VernamDecrypt(plainText, RepeatKey(key, plainText.Length));
+                ViewBag.Massage = VernamDecrypt(ciphertext, RepeatKey(key, ciphertext.Length));
 
             }
             else

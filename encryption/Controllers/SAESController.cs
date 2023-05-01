@@ -9,8 +9,6 @@ namespace encryption.Controllers
     public class SAESController : Controller
     {
         //Encryption Action
-
-        [Authorize]
         public IActionResult SAESEncryption()
         {
             return View();
@@ -31,7 +29,6 @@ namespace encryption.Controllers
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult SAESDecryption()
         {
             return View();
@@ -311,54 +308,76 @@ namespace encryption.Controllers
 
         public static string SAESEncrypt(string plaintext, string key)
         {
-            byte[] state = Encoding.ASCII.GetBytes(plaintext.PadRight((plaintext.Length / 16 + 1) * 16, '\0'));
-            byte[] expandedKey = ExpandKey(Encoding.ASCII.GetBytes(key));
+            byte[] plaintextBytes = Encoding.ASCII.GetBytes(plaintext);
+            int paddingLength = 16 - (plaintextBytes.Length % 16);
+            byte[] paddedPlaintextBytes = new byte[plaintextBytes.Length + paddingLength];
+            Array.Copy(plaintextBytes, paddedPlaintextBytes, plaintextBytes.Length);
 
-            state = AddRoundKey(state, expandedKey, 0);
-            for (int i = 1; i <= 9; i++)
+            byte[] expandedKey = ExpandKey(Encoding.ASCII.GetBytes(key));
+            byte[] state = new byte[16];
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < paddedPlaintextBytes.Length; i += 16)
             {
+                Array.Copy(paddedPlaintextBytes, i, state, 0, 16);
+
+                state = AddRoundKey(state, expandedKey, 0);
+                for (int j = 1; j <= 9; j++)
+                {
+                    state = SubBytes(state);
+                    state = ShiftRows(state);
+                    state = MixColumns(state);
+                    state = AddRoundKey(state, expandedKey, j);
+                }
                 state = SubBytes(state);
                 state = ShiftRows(state);
-                state = MixColumns(state);
-                state = AddRoundKey(state, expandedKey, i);
-            }
-            state = SubBytes(state);
-            state = ShiftRows(state);
-            state = AddRoundKey(state, expandedKey, 10);
+                state = AddRoundKey(state, expandedKey, 10);
 
-            return BitConverter.ToString(state).Replace("-", "");
+                sb.Append(BitConverter.ToString(state).Replace("-", ""));
+            }
+
+            return sb.ToString();
         }
 
         public static string SAESDecrypt(string ciphertext, string key)
         {
-            byte[] state = Enumerable.Range(0, ciphertext.Length)
-                                 .Where(x => x % 2 == 0)
-                                 .Select(x => Convert.ToByte(ciphertext.Substring(x, 2), 16))
-                                 .ToArray();
+            byte[] ciphertextBytes = Enumerable.Range(0, ciphertext.Length)
+                                               .Where(x => x % 2 == 0)
+                                               .Select(x => Convert.ToByte(ciphertext.Substring(x, 2), 16))
+                                               .ToArray();
 
             byte[] expandedKey = ExpandKey(Encoding.ASCII.GetBytes(key));
+            byte[] state = new byte[16];
 
-            state = AddRoundKey(state, expandedKey, 10);
-            state = InvShiftRows(state);
-            state = InvSubBytes(state);
-
-            for (int i = 9; i >= 1; i--)
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < ciphertextBytes.Length; i += 16)
             {
-                state = AddRoundKey(state, expandedKey, i);
-                state = InvMixColumns(state);
+                Array.Copy(ciphertextBytes, i, state, 0, 16);
+
+                state = AddRoundKey(state, expandedKey, 10);
                 state = InvShiftRows(state);
                 state = InvSubBytes(state);
+
+                for (int j = 9; j >= 1; j--)
+                {
+                    state = AddRoundKey(state, expandedKey, j);
+                    state = InvMixColumns(state);
+                    state = InvShiftRows(state);
+                    state = InvSubBytes(state);
+                }
+
+                state = AddRoundKey(state, expandedKey, 0);
+
+                int length = state.Length;
+                while (length > 0 && state[length - 1] == 0)
+                    length--;
+                byte[] result = new byte[length];
+                Array.Copy(state, result, length);
+
+                sb.Append(Encoding.ASCII.GetString(result));
             }
 
-            state = AddRoundKey(state, expandedKey, 0);
-
-            int length = state.Length;
-            while (length > 0 && state[length - 1] == 0)
-                length--;
-            byte[] result = new byte[length];
-            Array.Copy(state, result, length);
-
-            return Encoding.ASCII.GetString(result);
+            return sb.ToString();
         }
     }
 }

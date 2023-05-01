@@ -11,7 +11,7 @@
         <form method="post">
 
             <div class="form-group">
-                <input type="text" class="form-control" id="plainText" name="plainText" placeholder="PlainText : " required />
+                <input type="text" class="form-control" id="ciphertext" name="ciphertext" placeholder="Ciphertext : " required />
             </div>
             <br />
 
@@ -25,7 +25,7 @@
         </form>
         <br />
 
-        <div class="form-control">
+        <div class="form-control" id="form-control">
             <label>Decryption: </label>
             @ViewBag.Massage
         </div>
@@ -33,7 +33,7 @@
     <div class="column" id="Example">
         <p class="text-light">Example: </p>
         <div class="form-control">
-            <label>Plaintext: </label>
+            <label>Ciphertext: </label>
             1001111000101100011100010
         </div>
         <br />

@@ -8,8 +8,6 @@ namespace encryption.Controllers
     {
 
         //Encryption Action
-
-        [Authorize]
         public IActionResult PolyalphabeticEncryption()
         {
             return View();
@@ -18,35 +16,22 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult PolyalphabeticEncryption(string plainText)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = PolyalphabeticEncrypt(plainText);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = PolyalphabeticEncrypt(plainText);
 
             return View();
         }
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult PolyalphabeticDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult PolyalphabeticDecryption(string plainText)
+        public IActionResult PolyalphabeticDecryption(string ciphertext)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = PolyalphabeticDecrypt(plainText);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = PolyalphabeticDecrypt(ciphertext);
 
             return View();
         }

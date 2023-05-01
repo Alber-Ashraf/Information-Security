@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
 
 namespace encryption.Controllers
@@ -7,8 +8,6 @@ namespace encryption.Controllers
     public class CaesarController : Controller
     {
         //Encryption Action
-
-        [Authorize]
         public IActionResult CaesarEncryption()
         {
             return View();
@@ -17,35 +16,35 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult CaesarEncryption(string plainText, int key)
         {
-            if (!String.IsNullOrEmpty(plainText))
+
+            if (key >= 0)
             {
                 ViewBag.Massage = CaesarEncrypt(plainText, key);
 
             }
             else
-                ViewBag.Massage = "Invalid";
+                ViewBag.Massage = "Invalid! The key must be a positive number";
 
             return View();
         }
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult CaesarDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CaesarDecryption(string plainText, int Key)
+        public IActionResult CaesarDecryption(string ciphertext, int key)
         {
-            if (!String.IsNullOrEmpty(plainText))
+            if (key >= 0)
             {
-                ViewBag.Massage = CaesarDecrypt(plainText, Key);
+                ViewBag.Massage = CaesarDecrypt(ciphertext, key);
 
             }
             else
-                ViewBag.Massage = "Invalid";
+                ViewBag.Massage = "Invalid! The key must be a positive number";
 
             return View();
         }

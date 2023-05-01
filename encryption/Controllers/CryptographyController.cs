@@ -8,13 +8,11 @@ namespace encryption.Controllers
 {
     public class CryptographyController : Controller
     {
-        [Authorize]
         public IActionResult Encryption()
         {
             return View();
         }
 
-        [Authorize]
         public IActionResult Decryption()
         {
             return View();

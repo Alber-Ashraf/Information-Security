@@ -9,7 +9,6 @@ namespace encryption.Controllers
     {
         //Encryption Action
 
-        [Authorize]
         public IActionResult AutokeyEncryption()
         {
             return View();
@@ -18,35 +17,33 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult AutokeyEncryption(string plainText, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
+            if (Char.IsLetter(key[0]))
             {
                 ViewBag.Massage = AutokeyEncrypt(plainText, key);
-
             }
             else
-                ViewBag.Massage = "Invalid";
+                ViewBag.Massage = "Invaild! The key must be a character";
 
             return View();
         }
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult AutokeyDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AutokeyDecryption(string plainText, string Key)
+        public IActionResult AutokeyDecryption(string ciphertext, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
+            if (Char.IsLetter(key[0]))
             {
-                ViewBag.Massage = AutokeyDecrypt(plainText, Key);
-
+                ViewBag.Massage = AutokeyDecrypt(ciphertext, key);
             }
             else
-                ViewBag.Massage = "Invalid";
+                ViewBag.Massage = "Invaild! The key must be a character";
+            
 
             return View();
         }
@@ -57,10 +54,10 @@ namespace encryption.Controllers
         {
 
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
             string fullKey = key + plaintext;
@@ -75,21 +72,21 @@ namespace encryption.Controllers
             return ciphertext;
         }
 
-        public static string AutokeyDecrypt(string plaintext, string key)
+        public static string AutokeyDecrypt(string chiphertext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            chiphertext = Regex.Replace(chiphertext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             string ciphertext = "";
             string fullKey = key;
 
-            for (int i = 0; i < plaintext.Length; i++)
+            for (int i = 0; i < chiphertext.Length; i++)
             {
                 int shift = fullKey[i] - 'A';
-                char decryptedChar = (char)(((plaintext[i] - 'A' - shift + 26) % 26) + 'A');
+                char decryptedChar = (char)(((chiphertext[i] - 'A' - shift + 26) % 26) + 'A');
                 ciphertext += decryptedChar;
                 fullKey += decryptedChar;
             }

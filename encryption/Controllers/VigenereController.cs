@@ -10,7 +10,6 @@ namespace encryption.Controllers
     {
 
         //Encryption Action
-        [Authorize]
         public IActionResult VigenereEncryption()
         {
             return View();
@@ -19,34 +18,21 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult VigenereEncryption(string plainText, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = VigenereEncrypt(plainText, RepeatKey(key, plainText.Length));
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = VigenereEncrypt(plainText, RepeatKey(key, plainText.Length));
 
             return View();
         }
 
         //Decryption Action
-        [Authorize]
         public IActionResult VigenereDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult VigenereDecryption(string plainText, string key)
+        public IActionResult VigenereDecryption(string ciphertext, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = VigenereDecrypt(plainText, RepeatKey(key, plainText.Length));
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = VigenereDecrypt(ciphertext, RepeatKey(key, ciphertext.Length));
 
             return View();
         }

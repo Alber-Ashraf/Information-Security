@@ -8,7 +8,6 @@ namespace encryption.Controllers
     {
         //Encryption Action
 
-        [Authorize]
         public IActionResult MonoalphabeticEncryption()
         {
             return View();
@@ -17,35 +16,22 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult MonoalphabeticEncryption(string plainText, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = MonoalphabeticEncrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = MonoalphabeticEncrypt(plainText, key);
 
             return View();
         }
 
         //Decryption Action
 
-        [Authorize]
         public IActionResult MonoalphabeticDecryption()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult MonoalphabeticDecryption(string plainText, string key)
+        public IActionResult MonoalphabeticDecryption(string ciphertext, string key)
         {
-            if (!String.IsNullOrEmpty(plainText))
-            {
-                ViewBag.Massage = MonoalphabeticDecrypt(plainText, key);
-
-            }
-            else
-                ViewBag.Massage = "Invalid";
+            ViewBag.Massage = MonoalphabeticDecrypt(ciphertext, key);
 
             return View();
         }
@@ -53,10 +39,10 @@ namespace encryption.Controllers
         public static string MonoalphabeticEncrypt(string plaintext, string key)
         {
             // Remove any non-letter characters from the plaintext and convert to uppercase
-            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", " ").ToUpper();
+            plaintext = Regex.Replace(plaintext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             // Generate the substitution alphabet based on the key
             char[] substitutionAlphabet = GenerateSubstitutionAlphabet(key);
@@ -87,10 +73,10 @@ namespace encryption.Controllers
         public static string MonoalphabeticDecrypt(string ciphertext, string key)
         {
             // Remove any non-letter characters from the ciphertext and convert to uppercase
-            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", " ").ToUpper();
+            ciphertext = Regex.Replace(ciphertext, "[^A-Za-z]+", "").ToUpper();
 
             // Remove any non-letter characters from the key and convert to uppercase
-            key = Regex.Replace(key, "[^A-Za-z]+", " ").ToUpper();
+            key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
             // Generate the substitution alphabet based on the key
             char[] substitutionAlphabet = GenerateSubstitutionAlphabet(key);
