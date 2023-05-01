@@ -69,7 +69,7 @@ namespace encryption.Controllers
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
                     char2 = (char)((char2 - 'A' + shift2) % 26 + 'A');
 
-                    ciphertext += char1.ToString() + char2.ToString() + "x";
+                    ciphertext += char1.ToString() + char2.ToString();
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace encryption.Controllers
 
                     char1 = (char)((char1 - 'A' + shift1) % 26 + 'A');
 
-                    ciphertext += char1.ToString() + "xx";
+                    ciphertext += char1.ToString();
                 }
             }
 
@@ -97,15 +97,38 @@ namespace encryption.Controllers
 
             for (int i = 0; i < ciphertext.Length; i += 3)
             {
-                char char1 = ciphertext[i];
-                char char2 = ciphertext[i + 1];
-                char char3 = ciphertext[i + 2];
+                if (i + 2 < ciphertext.Length)
+                {
+                    char char1 = ciphertext[i];
+                    char char2 = ciphertext[i + 1];
+                    char char3 = ciphertext[i + 2];
 
-                char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
-                char2 = (char)((char2 - 'A' + 26 - shift2) % 26 + 'A');
-                char3 = (char)((char3 - 'A' + 26 - shift3) % 26 + 'A');
+                    char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
+                    char2 = (char)((char2 - 'A' + 26 - shift2) % 26 + 'A');
+                    char3 = (char)((char3 - 'A' + 26 - shift3) % 26 + 'A');
 
-                plaintext += char1.ToString() + char2.ToString() + char3.ToString();
+                    plaintext += char1.ToString() + char2.ToString() + char3.ToString();
+                }
+                else if (i + 1 < ciphertext.Length)
+                {
+                    // If there are only two characters left, pad with 'x'
+                    char char1 = ciphertext[i];
+                    char char2 = ciphertext[i + 1];
+
+                    char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
+                    char2 = (char)((char2 - 'A' + 26 - shift2) % 26 + 'A');
+
+                    plaintext += char1.ToString() + char2.ToString();
+                }
+                else
+                {
+                    // If there is only one character left, pad with 'x'
+                    char char1 = ciphertext[i];
+
+                    char1 = (char)((char1 - 'A' + 26 - shift1) % 26 + 'A');
+
+                    plaintext += char1.ToString();
+                }
             }
 
             return plaintext;
