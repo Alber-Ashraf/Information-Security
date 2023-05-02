@@ -17,7 +17,7 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult VernamEncryption(string plainText, string key)
         {
-            // Remove any non-letter characters from the plaintext and convert to uppercase
+            // Remove any non-letter characters from the plaintext
             plainText = Regex.Replace(plainText, "[^A-Za-z]+", " ");
 
             if (Regex.IsMatch(key, "^[01]+$"))
