@@ -17,13 +17,16 @@ namespace encryption.Controllers
         [HttpPost]
         public IActionResult VernamEncryption(string plainText, string key)
         {
-            if (Regex.IsMatch(plainText, "^[01]+$") && Regex.IsMatch(key, "^[01]+$"))
+            // Remove any non-letter characters from the plaintext and convert to uppercase
+            plainText = Regex.Replace(plainText, "[^A-Za-z]+", " ");
+
+            if (Regex.IsMatch(key, "^[01]+$"))
             {
-                ViewBag.Massage = VernamEncrypt(plainText, RepeatKey(key,plainText.Length));
+                ViewBag.Massage = VernamEncrypt(plainText, key);
 
             }
             else
-                ViewBag.Massage = "Invalid! The Plaintext and key must be in binary state";
+                ViewBag.Massage = "Invalid! The Key must be in binary state";
 
             return View();
         }
@@ -39,11 +42,11 @@ namespace encryption.Controllers
         {
             if (Regex.IsMatch(ciphertext, "^[01]+$") && Regex.IsMatch(key, "^[01]+$"))
             {
-                ViewBag.Massage = VernamDecrypt(ciphertext, RepeatKey(key, ciphertext.Length));
+                ViewBag.Massage = VernamDecrypt(ciphertext, key);
 
             }
             else
-                ViewBag.Massage = "Invalid! The Plaintext and key must be in binary state";
+                ViewBag.Massage = "Invalid! The ciphertext and the Key must be in binary state";
 
             return View();
         }
@@ -55,17 +58,15 @@ namespace encryption.Controllers
             string ciphertext = "";
 
             // Convert plaintext and key to binary arrays
-            bool[] plainBits = plaintext.Select(c => c == '1').ToArray();
-            bool[] keyBits = key.Select(c => c == '1').ToArray();
+            bool[] plainBits = StringToBinary(plaintext).Select(c => c == '1').ToArray();
 
-            // Repeat key to match length of plaintext
-            int keyIndex = 0;
+            string fullkey = RepeatKey(key, plainBits.Length);
+            bool[] keyBits = fullkey.Select(c => c == '1').ToArray();
 
-            for (int i = 0; i < keyBits.Length && keyIndex < plainBits.Length; i++)
+            for (int i = 0; i < plainBits.Length; i++)
             {
-                bool cipherBit = plainBits[keyIndex] ^ keyBits[i];
+                bool cipherBit = plainBits[i] ^ keyBits[i];
                 ciphertext += cipherBit ? "1" : "0";
-                keyIndex++;
             }
 
             return ciphertext;
@@ -77,19 +78,18 @@ namespace encryption.Controllers
 
             // Convert ciphertext and key to binary arrays
             bool[] cipherBits = ciphertext.Select(c => c == '1').ToArray();
-            bool[] keyBits = key.Select(c => c == '1').ToArray();
 
-            // Repeat key to match length of ciphertext
-            int keyIndex = 0;
+            string fullkey = RepeatKey(key, cipherBits.Length);
+            bool[] keyBits = fullkey.Select(c => c == '1').ToArray();
 
-            for (int i = 0; i < keyBits.Length && keyIndex < cipherBits.Length; i++)
+
+            for (int i = 0; i < cipherBits.Length; i++)
             {
-                bool plainBit = cipherBits[keyIndex] ^ keyBits[i];
+                bool plainBit = cipherBits[i] ^ keyBits[i];
                 plaintext += plainBit ? "1" : "0";
-                keyIndex++;
             }
 
-            return plaintext;
+            return BinaryToString(plaintext);
         }
 
         public static string RepeatKey(string key, int length)
@@ -100,6 +100,33 @@ namespace encryption.Controllers
                 repeatedKey.Append(key);
             }
             return repeatedKey.ToString().Substring(0, length);
+        }
+
+        static string StringToBinary(string input)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(input);
+            StringBuilder binary = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                for (int i = 7; i >= 0; i--)
+                {
+                    char c = ((b >> i) & 1) == 1 ? '1' : '0';
+                    binary.Append(c);
+                }
+            }
+            return binary.ToString();
+        }
+
+        static string BinaryToString(string binary)
+        {
+            List<Byte> byteList = new List<Byte>();
+            for (int i = 0; i < binary.Length; i += 8)
+            {
+                string binaryChar = binary.Substring(i, 8);
+                byte b = Convert.ToByte(binaryChar, 2);
+                byteList.Add(b);
+            }
+            return Encoding.ASCII.GetString(byteList.ToArray());
         }
     }
 }
