@@ -80,18 +80,18 @@ namespace encryption.Controllers
             // Remove any non-letter characters from the key and convert to uppercase
             key = Regex.Replace(key, "[^A-Za-z]+", "").ToUpper();
 
-            string ciphertext = "";
+            string plaintext = "";
             string fullKey = key;
 
             for (int i = 0; i < chiphertext.Length; i++)
             {
                 int shift = fullKey[i] - 'A';
                 char decryptedChar = (char)(((chiphertext[i] - 'A' - shift + 26) % 26) + 'A');
-                ciphertext += decryptedChar;
+                plaintext += decryptedChar;
                 fullKey += decryptedChar;
             }
 
-            return ciphertext;
+            return plaintext;
         }
     }
 }
